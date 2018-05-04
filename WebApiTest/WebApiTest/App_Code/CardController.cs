@@ -18,13 +18,39 @@ public class CardController : ApiController
     [HttpPost]
     public string Post(Card obj)
     {
+        var cardType="";
+
         if (obj.CardNumber == "0")
         {
-            return "Please Enter Card Number.";
+            return "Error";
         }
+        else if (obj.ExpDate == null)
+        {
+            return "Error";
+        }
+        else if (obj.CardNumber.Length != 16)
+        {
+            return "Error";
+        }       
         else
         {
-            return obj.CardNumber + obj.ExpDate;
+            if (obj.CardNumber.Substring(0, 1) == "3")
+            {
+                cardType = "JCB";
+
+            }
+            else if (obj.CardNumber.Substring(0, 1) == "4")
+            {
+                cardType = "VISA";
+
+            }
+            else if (obj.CardNumber.Substring(0, 1) == "5")
+            {
+                cardType = "MASTER";
+
+            } else cardType = "UNKNOWN";      
+             
+            return obj.CardNumber + " " + obj.ExpDate + " " + cardType;
         }
     }
 
