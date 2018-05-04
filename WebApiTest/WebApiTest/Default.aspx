@@ -123,6 +123,25 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <script type="text/javascript">
+        function getProducts() {
+            var Card = new Object();
+            Card.CardNumber = $('#cardnumber1').val().toString() + $('#cardnumber2').val().toString() + $('#cardnumber3').val().toString() + + $('#cardnumber4').val().toString();
+            Card.ExpDate = $('#expmonth').val().toString() + $('#expyear').val().toString();
+
+            $.ajax({
+                url: "http://localhost:50128/api/card",
+                method: "POST",                                               
+                data: Card,
+                success: function (data) {
+                    console.log('Return Data', data);
+                },
+                error: function (err) {
+                    console.log('Error', err);
+                }
+            })
+
+    </script>
     
 </body>
 </html>
