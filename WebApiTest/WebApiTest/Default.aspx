@@ -98,6 +98,10 @@
                                 <option value="2021">2021</option>
                                 <option value="2022">2022</option>
                                 <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
                             </select>
                         </div>
                     </div>
@@ -105,7 +109,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <button type="button" class="btn btn-primary" onclick="getProducts();">Submit</button>
-                        <button type="button" class="btn btn-danger">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="cancelClick();">Cancel</button>
                     </div>
                 </div>
                 <div class="row" style="padding-top: 20px;">
@@ -116,8 +120,14 @@
                         </div>
                         <div id="info-alert" class="alert alert-success" role="alert" style="display: none">
                             <h4 class="alert-heading">Valid Card!</h4>
-                            <div >
-                                Card Number: <span id="altCardNumber"></span>
+                            <div>
+                                <strong>Card Number:</strong> <span id="altCardNumber"></span>
+                            </div>
+                            <div>
+                                <strong>Card Type:</strong> <span id="altCardType"></span>
+                            </div>
+                            <div>
+                                <strong>Card Expire Date:</strong> <span id="altCardExpDate"></span>
                             </div>
                         </div>
 
@@ -135,8 +145,15 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
+    <script type="text/javascript">             
 
+        function cancelClick() {
+            $(".form-control[type=text]").val("");
+            $("#expmonth").val("");
+            $("#expyear").val("");
+            $("#info-alert").hide();
+            $("#error-alert").hide();
+        }
 
         function getProducts() {
             var Card = new Object();
@@ -148,7 +165,7 @@
                 method: "POST",
                 data: Card,
                 success: function (data) {
-                    console.log('Return Data', data);
+                    
                     if (data === 'Error') {
                         $("#errmsg").text("UNKNOWN CARD OR INVALID CARD");
                         $("#info-alert").hide();
@@ -162,12 +179,15 @@
                             $("#error-alert").show();
                         }
                         else {
-                            $("#altCardNumber").text(res[0]);
+
+                            $("#altCardNumber").text(("" + res[0]).replace(/\B(?=(\d{4})+(?!\d))/g, "-"));
+                            $("#altCardType").text(res[2]);
+                            $("#altCardExpDate").text(res[1].replace(/^(\d{1})(\d{1})/, '$1/$2'));
                             $("#error-alert").hide();
                             $("#info-alert").show();
                         };
                     }
-                    
+
                 },
                 error: function (err) {
                     console.log('Error', err);
