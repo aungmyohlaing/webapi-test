@@ -131,7 +131,7 @@
 
             $.ajax({
                 url: "http://localhost:50128/api/card",
-                method: "POST",                                               
+                method: "POST",
                 data: Card,
                 success: function (data) {
                     console.log('Return Data', data);
@@ -140,7 +140,7 @@
                     console.log('Error', err);
                 }
             })
-
+        }
     </script>
     
 </body>
